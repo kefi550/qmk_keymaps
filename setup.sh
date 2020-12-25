@@ -9,6 +9,8 @@ ls $1
 
 rm -i $1/keyboards/claw44/rev1/rules.mk
 ln ${SCRIPT_DIR}/keyboards/claw44/rev1/rules.mk $1/keyboards/claw44/rev1/
+rm -i $1/keyboards/claw44/rev1/config.h
+ln ${SCRIPT_DIR}/keyboards/claw44/rev1/config.h $1/keyboards/claw44/rev1/
 if [ -e $1/keyboards/claw44/keymaps/kefi ]; then
   rm -ir $1/keyboards/claw44/keymaps/kefi
 fi
