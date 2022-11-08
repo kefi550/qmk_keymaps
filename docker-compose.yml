@@ -1,0 +1,28 @@
+# references https://qiita.com/akiakishitai/items/47292e29e6c4ed2d33dd
+version: "3.8"
+services:
+  # JSON to C
+  json2c:
+    image: qmkfm/qmk_firmware
+    working_dir: /qmk_firmware
+    stdin_open: true
+    tty: true
+    volumes:
+      - ${HOME}/ghq/github.com/kefi550/qmk_firmware/keyboards:/qmk_firmware/keyboards
+    environment:
+      EXPORTED: /qmk_firmware/keyboards/dailycraft/claw44/keymaps/kefi/mac.json
+    command: /bin/bash -c 'qmk json2c $$EXPORTED > $$(dirname $$EXPORTED)/keymap.c'
+
+  # Compile keymap.c to hex file
+  compile:
+    image: qmkfm/qmk_firmware
+    working_dir: /qmk_firmware
+    stdin_open: true
+    tty: true
+    volumes:
+      - ${HOME}/ghq/github.com/kefi550/qmk_firmware:/qmk_firmware
+      - ./.build:/qmk_firmware/.build
+    environment:
+      KEYBOARD: dailycraft/claw44
+      KEYMAP: kefi
+    command: /bin/bash -c 'qmk compile -kb $$KEYBOARD -km $$KEYMAP'
